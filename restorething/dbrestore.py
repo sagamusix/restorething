@@ -240,7 +240,9 @@ def copy_files(ue_src_file, ue_dst_file, no_sim, force):
                         logger.info('Skipping file...')
                         return
             try:
+                st = os.stat(ue_src_file)
                 shutil.copy(ue_src_file, ue_dst_file)
+                os.utime(ue_dst_file, (st.st_atime, st.st_mtime))
                 logger.debug('Successfully restored from %s', ue_src_file)
                 logger.info('Successfully restored %s', ue_dst_file)
             except Exception as err:
